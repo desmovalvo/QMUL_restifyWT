@@ -23,14 +23,15 @@ kp = None
 # flask app
 app = Flask(__name__)
 
+
 # my function
 def myFunc():
 
     # debug
     logging.debug("New request through REST APIs.")
     print(request)
-    logging.debug("Resource: %s -- Method: %s" % ("A", request.method))
-    return "Done!"
+    logging.debug("Resource: %s -- Method: %s" % (request.url, request.method))
+    return("DONE")
 
 
 # main
