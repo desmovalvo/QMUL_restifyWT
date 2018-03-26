@@ -80,6 +80,11 @@ def routeFinder():
         # /things/<ID_T>/events
         # /things/<ID_T>/actions
         logging.info("Managing access to /thing/<ID_T>/<ape>")
+
+        # render
+        if ape == "actions":
+            thingURI, thingDict = get_thing_description(things, thing_ID)
+            return render_template("actions.html", thing=thingDict, thingURI=thingURI)
     
     elif len(path_elements) == 4:
 
@@ -92,6 +97,12 @@ def routeFinder():
         # /things/<ID_T>/actions/<ID_P>
         # /things/<ID_T>/events/<ID_P>
         logging.info("Managing access to /thing/<ID_T>/<ape>/<ID_P>")
+
+        # render
+        if ape == "actions":
+            thingURI, thingDict, actionURI = get_action_description(things, thing_ID, ape_id)
+            return render_template("action.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, actionID=ape_id, actionURI=actionURI)
+        
 
     return("Ok")
 

@@ -16,16 +16,15 @@
     <div class="container">
 
       <h1><a href="/things" class="black-text">RestifyWT</a></h1><br>
-      <h3>Things</h3>
+      <h3>Action details</h3>
+      <b>Action URI:</b>&nbsp;<a class="black-text" href='/things/{{ thingID }}/actions/{{ actionID }}'>{{ actionURI }}</a>
       
-      <!-- Things -->
+      <!-- Action -->
       <div class="card lime darken-1">
 	<div class="card-content">
 	  <table>
-	    <tr><th>Thing URI</td><td><b>Thing Name</b></th></tr>
-	    {% for a in things %}
-            <tr><td><a class="black-text" href='{{ "http://localhost:5000/things/" + things[a]["id"] }}'>{{ a }}</a></td><td>{{ things[a]["name"] }}</td></tr>
-	    {% endfor %}
+	    <tr><th>Action URI</th><th><b>Action Name</b></th></tr>
+	    <tr><td>{{ actionURI }}</td><td>{{ thing["actions"][actionURI]["name"] }}</td></tr>
 	  </table>
 	</div>
       </div>

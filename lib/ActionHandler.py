@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 # global reqs
+import uuid
 import logging
 import threading
 from flask import Flask
@@ -50,10 +51,12 @@ class ActionHandler:
                 self.thingsDict[thingUri]["id"] = str(uuid.uuid4()).split("-")[0]
 
             # add the action to the dictionary            
-            self.thingsDict[thingUri]["actions"][actionUri] = actionName
+            self.thingsDict[thingUri]["actions"][actionUri] = {}
+            self.thingsDict[thingUri]["actions"][actionUri]["name"] = actionName
+            self.thingsDict[thingUri]["actions"][actionUri]["id"] = str(uuid.uuid4()).split("-")[0]
             
             # create the rest resources
-            uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + actionName
+            uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + self.thingsDict[thingUri]["actions"][actionUri]["id"]
             logging.debug("Adding route: " + self.baseURL + uri)
             self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
 

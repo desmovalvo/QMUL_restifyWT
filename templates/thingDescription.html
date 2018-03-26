@@ -15,7 +15,7 @@
 
     <div class="container">
 
-      <h1>RestifyWT</h1><br>
+      <h1><a class="black-text" href="/things">RestifyWT</a></h1><br>
       <h3>Thing Details</h3>
       <b>Thing URI:</b>&nbsp;{{ thingURI }}
    
@@ -54,7 +54,7 @@
 	  <table>
 	    <tr><th>Action URI</td><td><b>Action Name</b></th></tr>
 	    {% for a in thing["actions"] %}
-	    <tr><td>{{ a }}</td><td>{{ thing["actions"][a] }}</td></tr>
+	    <tr><td><a href='{{ thing["id"] }}/actions/{{ thing["actions"][a]["id"] }}' class="black-text">{{ a }}</a></td><td>{{ thing["actions"][a]["name"] }}</td></tr>
 	    {% endfor %}
 	  </table>
 	</div>
