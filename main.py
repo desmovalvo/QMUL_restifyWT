@@ -3,12 +3,13 @@
 # global reqs
 import logging
 from flask import Flask
-from flask import request
+from flask import request, render_template
 from random import randint
 from sepy.JSAPObject import JSAPObject
 from sepy.LowLevelKP import LowLevelKP
 
 # local reqs
+from lib.utils import *
 from lib.ThingsHandler import ThingsHandler
 from lib.ActionHandler import ActionHandler
 
@@ -24,15 +25,73 @@ kp = None
 app = Flask(__name__)
 
 
-# my function
-def myFunc():
+# route finder
+def routeFinder():
 
     # debug
     logging.debug("New request through REST APIs.")
-    print(request)
     logging.debug("Resource: %s -- Method: %s" % (request.url, request.method))
-    return("DONE")
 
+    # determine what to do
+    req_path = request.path
+    
+    # paths may be:
+    # /things
+    # /things/<ID_T>
+    # /things/<ID_T>/properties
+    # /things/<ID_T>/properties/<ID_P>
+    # /things/<ID_T>/actions
+    # /things/<ID_T>/actions/<ID_P>
+    # /things/<ID_T>/events
+    # /things/<ID_T>/events/<ID_P>
+
+    # explode the path
+    path_elements = req_path.split("/")
+    del path_elements[0]
+
+    # first level of check
+    if len(path_elements) == 1:
+
+        # /things
+        logging.info("Managing access to /things")
+
+    elif len(path_elements) == 2:
+
+        # /things/<ID_T>
+        logging.info("Managing access to /things/<ID_T>")
+
+        # get thing ID
+        thing_ID = path_elements[1]
+
+        # get data
+        print(things)
+        thingURI, thingDict = get_thing_description(things, thing_ID)
+        return render_template("thingDescription.html", thing=thingDict, thingURI=thingURI)
+        
+    elif len(path_elements) == 3:
+
+        # get thing ID and second element of path
+        thing_ID = path_elements[1]
+        ape = path_elements[2] 
+        
+        # /things/<ID_T>/properties
+        # /things/<ID_T>/events
+        # /things/<ID_T>/actions
+        logging.info("Managing access to /thing/<ID_T>/<ape>")
+    
+    elif len(path_elements) == 4:
+
+        # get thing ID, second element of path and second id
+        thing_ID = path_elements[1]
+        ape = path_elements[2]
+        ape_id = path_elements[3]
+                
+        # /things/<ID_T>/properties/<ID_P>
+        # /things/<ID_T>/actions/<ID_P>
+        # /things/<ID_T>/events/<ID_P>
+        logging.info("Managing access to /thing/<ID_T>/<ape>/<ID_P>")
+
+    return("Ok")
 
 # main
 if __name__ == "__main__":
@@ -49,8 +108,8 @@ if __name__ == "__main__":
     # connect to SEPA and subscribe to all the actions
     logging.debug("Initialize a KP")
     kp = LowLevelKP(None, 40)
-    kp.subscribe(jsap.subscribeUri, jsap.getQuery("THINGS", {}), "things", ThingsHandler(app, myFunc, things))
-    kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTIONS", {}), "things", ActionHandler(app, myFunc, things))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("THINGS", {}), "things", ThingsHandler(app, routeFinder, things))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTIONS", {}), "things", ActionHandler(app, routeFinder, things))
     
     # start the main server
     logging.debug("Listening for requests...")

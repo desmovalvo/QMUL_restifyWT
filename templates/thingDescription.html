@@ -1,0 +1,67 @@
+<html>
+
+  <head>
+    <title>RestifyWT</title>
+    
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <h1>Thing details</h1><br>
+      <b>Thing URI:</b>&nbsp;{{ thingURI }}
+   
+      <!-- Actions -->
+      <div class="card lime darken-1">
+	<div class="card-content">
+	  <span class="card-title">Properties</span>	  
+	  <table white-text>
+	    <tr><th><b>Property URI<b></th><th><b>Property Name</b></th></tr>
+	    {% for a in thing["properties"] %}
+	    <tr><td>{{ a }}</td><td>thing["properties"][a]</td></tr>
+	    {% endfor %}
+	  </table>
+	</div>
+      </div>
+      <div class="divider"></div>
+	
+      <!-- Actions -->
+      <div class="card lime darken-1">
+	<div class="card-content">
+	  <span class="card-title">Events</span>	  
+	  <table>
+	    <tr><th><b>Event URI</b></td><td><b>Event Name</b></th></tr>
+	    {% for a in thing["events"] %}
+	    <tr><td>{{ a }}</td><td>{{ thing["events"][a] }}</td></tr>
+	    {% endfor %}
+	  </table>
+	</div>
+      </div>
+      <div class="divider"></div>
+      
+      <!-- Actions -->
+      <div class="card lime darken-1">
+	<div class="card-content">
+	  <span class="card-title">Actions</span>	  
+	  <table>
+	    <tr><th>Action URI</td><td><b>Action Name</b></th></tr>
+	    {% for a in thing["actions"] %}
+	    <tr><td>{{ a }}</td><td>{{ thing["actions"][a] }}</td></tr>
+	    {% endfor %}
+	  </table>
+	</div>
+      </div>
+      <div class="divider"></div>	
+      
+    </div>
+    
+  </body>
+  
+</html>

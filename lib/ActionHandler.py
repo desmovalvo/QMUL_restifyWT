@@ -53,7 +53,7 @@ class ActionHandler:
             self.thingsDict[thingUri]["actions"][actionUri] = actionName
             
             # create the rest resources
-            uri = '/' + self.thingsDict[thingUri]["id"] + "/actions/" + actionName
+            uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + actionName
             logging.debug("Adding route: " + self.baseURL + uri)
             self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
 
