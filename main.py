@@ -9,12 +9,14 @@ from sepy.JSAPObject import JSAPObject
 from sepy.LowLevelKP import LowLevelKP
 
 # local reqs
+from lib.ThingsHandler import ThingsHandler
 from lib.ActionHandler import ActionHandler
 
 # constants
 CONFIG_FILE = "restifyWT.jsap"
 
 # vars
+things = {}
 jsap = None
 kp = None
 
@@ -46,7 +48,8 @@ if __name__ == "__main__":
     # connect to SEPA and subscribe to all the actions
     logging.debug("Initialize a KP")
     kp = LowLevelKP(None, 40)
-    kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTIONS", {}), "actions", ActionHandler(app, myFunc))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("THINGS", {}), "things", ThingsHandler(app, myFunc, things))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTIONS", {}), "things", ActionHandler(app, myFunc, things))
     
     # start the main server
     logging.debug("Listening for requests...")

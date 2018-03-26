@@ -31,7 +31,11 @@
     },
     "queries": {
 	"ACTIONS":{
-	    "sparql":" SELECT ?action ?actionName WHERE { ?action rdf:type td:Action . ?action td:hasName ?actionName }",
+	    "sparql":" SELECT ?thing ?thingName ?action ?actionName WHERE { ?action rdf:type td:Action . ?action td:hasName ?actionName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasAction ?action }",
+	    "forcedBindings":{}
+	},
+	"THINGS":{
+	    "sparql": "SELECT ?thing ?tName WHERE { ?thing rdf:type td:Thing . ?thing td:hasName ?tName } ",
 	    "forcedBindings":{}
 	}
     },
