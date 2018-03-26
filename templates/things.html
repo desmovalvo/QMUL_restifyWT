@@ -1,0 +1,38 @@
+<html>
+
+  <head>
+    <title>RestifyWT</title>
+    
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <h1>RestifyWT</h1><br>
+      <h3>Things</h3>
+      
+      <!-- Things -->
+      <div class="card lime darken-1">
+	<div class="card-content">
+	  <table>
+	    <tr><th>Thing URI</td><td><b>Thing Name</b></th></tr>
+	    {% for a in things %}
+            <tr><td><a class="black-text" href='{{ "http://localhost:5000/things/" + things[a]["id"] }}'>{{ a }}</a></td><td>{{ things[a]["name"] }}</td></tr>
+	    {% endfor %}
+	  </table>
+	</div>
+      </div>
+      <div class="divider"></div>	
+      
+    </div>
+    
+  </body>
+  
+</html>

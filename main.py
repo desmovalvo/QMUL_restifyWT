@@ -55,6 +55,9 @@ def routeFinder():
         # /things
         logging.info("Managing access to /things")
 
+        # render
+        return render_template("things.html", things=things)
+
     elif len(path_elements) == 2:
 
         # /things/<ID_T>
@@ -63,8 +66,7 @@ def routeFinder():
         # get thing ID
         thing_ID = path_elements[1]
 
-        # get data
-        print(things)
+        # render
         thingURI, thingDict = get_thing_description(things, thing_ID)
         return render_template("thingDescription.html", thing=thingDict, thingURI=thingURI)
         
@@ -105,6 +107,10 @@ if __name__ == "__main__":
     logging.debug("Loading JSAP config file")
     jsap = JSAPObject(CONFIG_FILE, 40)
 
+    # add the basic resource /things
+    logging.debug('http://localhost:5000/things')
+    app.add_url_rule('/things', "things", routeFinder)
+    
     # connect to SEPA and subscribe to all the actions
     logging.debug("Initialize a KP")
     kp = LowLevelKP(None, 40)
