@@ -26,7 +26,7 @@
 	  <table white-text>
 	    <tr><th><b>Property URI<b></th><th><b>Property Name</b></th></tr>
 	    {% for a in thing["properties"] %}
-	    <tr><td>{{ a }}</td><td>thing["properties"][a]</td></tr>
+	    <tr><td><a href='{{ thing["id"] }}/properties/{{ thing["properties"][a]["id"] }}' class="black-text">{{ a }}</a></td><td>thing["properties"][a]</td></tr>
 	    {% endfor %}
 	  </table>
 	</div>
