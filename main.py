@@ -86,6 +86,9 @@ def routeFinder():
         if ape == "actions":
             thingURI, thingDict = get_thing_description(things, thing_ID)
             return render_template("actions.html", thing=thingDict, thingURI=thingURI)
+        if ape == "properties":
+            thingURI, thingDict = get_thing_description(things, thing_ID)
+            return render_template("properties.html", thing=thingDict, thingURI=thingURI)
     
     elif len(path_elements) == 4:
 
