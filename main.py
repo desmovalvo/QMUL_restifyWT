@@ -80,15 +80,15 @@ def routeFinder():
         # /things/<ID_T>/properties
         # /things/<ID_T>/events
         # /things/<ID_T>/actions
-        logging.info("Managing access to /thing/<ID_T>/<ape>")
 
         # render
+        thingURI, thingDict = get_thing_description(things, thing_ID)
         if ape == "actions":
-            thingURI, thingDict = get_thing_description(things, thing_ID)
             return render_template("actions.html", thing=thingDict, thingURI=thingURI)
-        if ape == "properties":
-            thingURI, thingDict = get_thing_description(things, thing_ID)
+        elif ape == "properties":
             return render_template("properties.html", thing=thingDict, thingURI=thingURI)
+        elif ape == "events":
+            return render_template("events.html", thing=thingDict, thingURI=thingURI)        
     
     elif len(path_elements) == 4:
 
@@ -100,19 +100,16 @@ def routeFinder():
         # /things/<ID_T>/properties/<ID_P>
         # /things/<ID_T>/actions/<ID_P>
         # /things/<ID_T>/events/<ID_P>
-        logging.info("Managing access to /thing/<ID_T>/<ape>/<ID_P>")
-        logging.info(thing_ID)
-        logging.info(ape_id)
-        logging.info(ape)
-        logging.info(things)
 
         # render
+        thingURI, thingDict, apeURI = get_thing_description(things, thing_ID, ape_id, ape)
         if ape == "actions":
-            thingURI, thingDict, actionURI = get_thing_description(things, thing_ID, ape_id, "actions")
-            return render_template("action.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, actionID=ape_id, actionURI=actionURI)
+            return render_template("action.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, actionID=ape_id, actionURI=apeURI)
         elif ape == "properties":
-            thingURI, thingDict, propURI = get_thing_description(things, thing_ID, ape_id, "properties")
-            return render_template("property.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, propID=ape_id, propURI=propURI)
+            return render_template("property.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, propID=ape_id, propURI=apeURI)
+        elif ape == "events":
+            return render_template("event.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, propID=ape_id, propURI=apeURI)
+
         
     return("Ok")
 
