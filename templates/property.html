@@ -1,0 +1,38 @@
+<html>
+
+  <head>
+    <title>RestifyWT</title>
+    
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <h1>RestifyWT</h1><br>
+      <h3>Property Details</h3>
+      <b>Thing URI:</b>&nbsp;{{ thingURI }}
+   
+      <!-- Properties -->
+      <div class="card lime darken-1">
+	<div class="card-content">
+	  <span class="card-title">Property</span>	  
+	  <table white-text>
+	    <tr><th><b>Property URI<b></th><th><b>Property Name</b></th></tr>
+	    <tr><td>{{ propURI }}</td><td>{{ thing["properties"][propURI]["name"] }}</td></tr>
+	  </table>
+	</div>
+      </div>
+      <div class="divider"></div>
+	      
+    </div>
+    
+  </body>
+  
+</html>

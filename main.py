@@ -12,6 +12,7 @@ from sepy.LowLevelKP import LowLevelKP
 from lib.utils import *
 from lib.ThingsHandler import ThingsHandler
 from lib.ActionHandler import ActionHandler
+from lib.PropertyHandler import PropertyHandler
 
 # constants
 CONFIG_FILE = "restifyWT.jsap"
@@ -97,13 +98,19 @@ def routeFinder():
         # /things/<ID_T>/actions/<ID_P>
         # /things/<ID_T>/events/<ID_P>
         logging.info("Managing access to /thing/<ID_T>/<ape>/<ID_P>")
+        logging.info(thing_ID)
+        logging.info(ape_id)
+        logging.info(ape)
+        logging.info(things)
 
         # render
         if ape == "actions":
-            thingURI, thingDict, actionURI = get_action_description(things, thing_ID, ape_id)
+            thingURI, thingDict, actionURI = get_thing_description(things, thing_ID, ape_id, "actions")
             return render_template("action.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, actionID=ape_id, actionURI=actionURI)
+        elif ape == "properties":
+            thingURI, thingDict, propURI = get_thing_description(things, thing_ID, ape_id, "properties")
+            return render_template("property.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, propID=ape_id, propURI=propURI)
         
-
     return("Ok")
 
 # main
@@ -127,6 +134,7 @@ if __name__ == "__main__":
     kp = LowLevelKP(None, 40)
     kp.subscribe(jsap.subscribeUri, jsap.getQuery("THINGS", {}), "things", ThingsHandler(app, routeFinder, things))
     kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTIONS", {}), "things", ActionHandler(app, routeFinder, things))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("PROPERTIES", {}), "things", PropertyHandler(app, routeFinder, things))
     
     # start the main server
     logging.debug("Listening for requests...")

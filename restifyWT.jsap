@@ -34,6 +34,10 @@
 	    "sparql":" SELECT ?thing ?thingName ?action ?actionName WHERE { ?action rdf:type td:Action . ?action td:hasName ?actionName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasAction ?action }",
 	    "forcedBindings":{}
 	},
+	"PROPERTIES":{
+	    "sparql":" SELECT ?thing ?thingName ?property ?propertyName WHERE { ?property rdf:type td:Property . ?property td:hasName ?propertyName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasProperty ?property }",
+	    "forcedBindings":{}
+	},
 	"THINGS":{
 	    "sparql": "SELECT ?thing ?tName WHERE { ?thing rdf:type td:Thing . ?thing td:hasName ?tName } ",
 	    "forcedBindings":{}
