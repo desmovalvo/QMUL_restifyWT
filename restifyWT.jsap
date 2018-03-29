@@ -31,8 +31,12 @@
     },
     "queries": {
 	"ACTIONS":{
-	    "sparql":" SELECT ?thing ?thingName ?action ?actionName WHERE { ?action rdf:type td:Action . ?action td:hasName ?actionName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasAction ?action }",
+	    "sparql":" SELECT ?thing ?thingName ?action ?actionName ?inField ?inFieldType WHERE { ?action rdf:type td:Action . ?action td:hasName ?actionName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasAction ?action . OPTIONAL { ?action wot:hasInputDataSchema ?dataSchema . ?dataSchema wot:hasField ?inField . ?inField wot:hasType ?inFieldType } }",
 	    "forcedBindings":{}
+	},
+	"ACTION_INSTANCES":{	    
+	    "sparql":"SELECT ?thing ?action ?instance WHERE { ?thing rdf:type td:Thing . ?thing td:hasAction ?action . ?action rdf:type td:Action . ?action td:hasActionInstance ?instance . OPTIONAL { ?instance wot:hasInputData ?inputData . ?inputData dul:hasDataValue ?value }}",
+	    "forcedBindings":""
 	},
 	"PROPERTIES":{
 	    "sparql":" SELECT ?thing ?thingName ?property ?propertyName WHERE { ?property rdf:type td:Property . ?property td:hasName ?propertyName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasProperty ?property }",

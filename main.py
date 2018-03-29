@@ -13,6 +13,7 @@ from lib.utils import *
 from lib.ThingsHandler import ThingsHandler
 from lib.ActionHandler import ActionHandler
 from lib.PropertyHandler import PropertyHandler
+from lib.ActionInstanceHandler import ActionInstanceHandler
 
 # constants
 CONFIG_FILE = "restifyWT.jsap"
@@ -43,6 +44,8 @@ def routeFinder():
     # /things/<ID_T>/properties/<ID_P>
     # /things/<ID_T>/actions
     # /things/<ID_T>/actions/<ID_P>
+    # /things/<ID_T>/actions/<ID_P>/instances
+    # /things/<ID_T>/actions/<ID_P>/instances/<ID_I>
     # /things/<ID_T>/events
     # /things/<ID_T>/events/<ID_P>
 
@@ -110,8 +113,37 @@ def routeFinder():
         elif ape == "events":
             return render_template("event.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, propID=ape_id, propURI=apeURI)
 
+    elif len(path_elements) == 5:
+
+        # get thing ID, second element of path and second id
+        thing_ID = path_elements[1]
+        ae = path_elements[2]
+        ae_id = path_elements[3]
         
-    return("Ok")
+        # render
+        thingURI, thingDict, aeURI = get_thing_description(things, thing_ID, ae_id, ae)
+        if ae == "actions":
+            return render_template("action_instances.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, actionID=ae_id, actionURI=aeURI)
+#        elif ape == "events":
+#            return render_template("event_instance.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, propID=ape_id, propURI=apeURI)
+
+    elif len(path_elements) == 6:
+
+        # get thing ID, second element of path and second id
+        thing_ID = path_elements[1]
+        ae = path_elements[2]
+        ae_id = path_elements[3]
+        i_id = path_elements[5]
+        
+        # render
+        thingURI, thingDict, apeURI = get_instance_details(things, thing_ID, ape_id, ape, i_id)
+        if ape == "actions":
+            return render_template("action_instance.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, actionID=ape_id, actionURI=apeURI)
+#        elif ape == "events":
+#            return render_template("event_instance.html", thing=thingDict, thingURI=thingURI, thingID=thing_ID, propID=ape_id, propURI=apeURI)
+
+
+        
 
 # main
 if __name__ == "__main__":
@@ -133,8 +165,9 @@ if __name__ == "__main__":
     logging.debug("Initialize a KP")
     kp = LowLevelKP(None, 40)
     kp.subscribe(jsap.subscribeUri, jsap.getQuery("THINGS", {}), "things", ThingsHandler(app, routeFinder, things))
-    kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTIONS", {}), "things", ActionHandler(app, routeFinder, things))
-    kp.subscribe(jsap.subscribeUri, jsap.getQuery("PROPERTIES", {}), "things", PropertyHandler(app, routeFinder, things))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTIONS", {}), "actions", ActionHandler(app, routeFinder, things))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("PROPERTIES", {}), "properties", PropertyHandler(app, routeFinder, things))
+    kp.subscribe(jsap.subscribeUri, jsap.getQuery("ACTION_INSTANCES", {}), "instances", ActionInstanceHandler(app, routeFinder, things))
     
     # start the main server
     logging.debug("Listening for requests...")

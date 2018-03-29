@@ -17,19 +17,35 @@
 
       <h1><a href="/things" class="black-text">RestifyWT</a></h1><br>
       <h3>Action details</h3>
-      <b>Thing URI:</b>&nbsp;<a class="black-text" href='/things/{{ thingID }}'>{{ thingURI }}</a>
       
       <!-- Action -->
       <div class="card lime darken-1">
 	<div class="card-content">
-	  <table>
-	    <tr><th>Action URI</th><th><b>Action Name</b></th></tr>
-	    <tr><td>{{ actionURI }}</td><td>{{ thing["actions"][actionURI]["name"] }}</td></tr>
+	  <ul>
+	    <li><b>Action Name:&nbsp;</b>{{ thing["actions"][actionURI]["name"] }}</li>
+	    <li><b>Action URI:&nbsp;</b>{{ actionURI }}</li>
+	    <li><b>Thing URI:&nbsp;</b><a class="black-text" href='/things/{{ thingID }}'>{{ thingURI }}</a></li>
+	  </ul>
 	  </table>
 	</div>
       </div>
       <div class="divider"></div>	
+
+      <h3>Action instances</h3>
       
+      <!-- Action -->
+      <div class="card lime darken-1">
+      	<div class="card-content">
+      	  <table>
+      	    <tr><th>Action Instance</th></tr>
+	    {% for i in thing["actions"][actionURI]["instances"] %}
+      	    <tr><td>{{ thing["actions"][actionURI]["instances"][i] }}</td></tr>
+	    {% endfor %}
+      	  </table>
+      	</div>
+      </div>
+      <div class="divider"></div>
+
     </div>
     
   </body>

@@ -59,6 +59,9 @@ class ActionHandler:
             uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + self.thingsDict[thingUri]["actions"][actionUri]["id"]
             logging.debug("Adding route: " + self.baseURL + uri)
             self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
+            uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + self.thingsDict[thingUri]["actions"][actionUri]["id"] + "/instances"
+            logging.debug("Adding route: " + self.baseURL + uri)
+            self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
 
         # release the lock
         self.lock.release()
