@@ -1,0 +1,40 @@
+<html>
+
+  <head>
+    <title>RestifyWT</title>
+    
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <h1><a href="/things" class="black-text">RestifyWT</a></h1><br>
+      <h3>Instances</h3>
+      <b>Action URI:</b>&nbsp;<a class="black-text" href='/things/{{ thing["id"] }}/actions/{{ actionID }}'>{{ actionURI }}</a>
+         
+      <!-- Instances -->
+      <div class="card lime darken-1">
+	<div class="card-content">
+	  <span class="card-title">Instances</span>	  
+	  <table>
+	    <tr><th>Instance URI</th></tr>
+	    {% for a in thing["actions"][actionURI]["instances"] %}
+	    <tr><td>{{ a }}</td><td>{{ thing["actions"][actionURI][instances][a] }}</td></tr>
+	    {% endfor %}
+	  </table>
+	</div>
+      </div>
+      <div class="divider"></div>	
+      
+    </div>
+    
+  </body>
+  
+</html>

@@ -50,18 +50,32 @@ class ActionHandler:
                 self.thingsDict[thingUri]["properties"] = {}
                 self.thingsDict[thingUri]["id"] = str(uuid.uuid4()).split("-")[0]
 
-            # add the action to the dictionary            
-            self.thingsDict[thingUri]["actions"][actionUri] = {}
-            self.thingsDict[thingUri]["actions"][actionUri]["name"] = actionName
-            self.thingsDict[thingUri]["actions"][actionUri]["id"] = str(uuid.uuid4()).split("-")[0]
+            # add the action to the dictionary
+            if not actionUri in self.thingsDict[thingUri]["actions"]:
+                self.thingsDict[thingUri]["actions"][actionUri] = {}
+                self.thingsDict[thingUri]["actions"][actionUri]["id"] = str(uuid.uuid4()).split("-")[0]
+                self.thingsDict[thingUri]["actions"][actionUri]["instances"] = {}            
+                self.thingsDict[thingUri]["actions"][actionUri]["input"] = {}
+                self.thingsDict[thingUri]["actions"][actionUri]["name"] = actionName
+
+                # create the rest resources
+                uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + self.thingsDict[thingUri]["actions"][actionUri]["id"]
+                logging.debug("Adding route: " + self.baseURL + uri)
+                self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
+                uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + self.thingsDict[thingUri]["actions"][actionUri]["id"] + "/instances"
+                logging.debug("Adding route: " + self.baseURL + uri)
+                self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
             
-            # create the rest resources
-            uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + self.thingsDict[thingUri]["actions"][actionUri]["id"]
-            logging.debug("Adding route: " + self.baseURL + uri)
-            self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
-            uri = '/things/' + self.thingsDict[thingUri]["id"] + "/actions/" + self.thingsDict[thingUri]["actions"][actionUri]["id"] + "/instances"
-            logging.debug("Adding route: " + self.baseURL + uri)
-            self.flaskApp.add_url_rule(uri, actionUri, self.invFunct)
+            # store the input format
+            if "inField" in a:
+                inField = a["inField"]["value"]
+                inFieldType = a["inFieldType"]["value"]
+                inFieldName = a["inFieldName"]["value"]
+                if not inField in self.thingsDict[thingUri]["actions"][actionUri]["input"]:
+                    self.thingsDict[thingUri]["actions"][actionUri]["input"][inField] = {}
+                self.thingsDict[thingUri]["actions"][actionUri]["input"][inField]["type"] = inFieldType
+                self.thingsDict[thingUri]["actions"][actionUri]["input"][inField]["name"] = inFieldName
+            
 
         # release the lock
         self.lock.release()

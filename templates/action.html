@@ -31,6 +31,28 @@
       </div>
       <div class="divider"></div>	
 
+      <h3>Invoke Action</h3>
+      
+      <!-- Action -->
+      <div class="card lime darken-1">
+      	<div class="card-content">
+	  <form>
+	    {% for f in thing["actions"][actionURI]["input"] %}
+            <div class="input-field col s6">
+              <input id={{ thing["actions"][actionURI]["input"][f]["name"] }} type="text" class="validate">
+              <label for='{{ thing["actions"][actionURI]["input"][f]["name"] }}'>{{ thing["actions"][actionURI]["input"][f]["name"] }}</label>
+            </div>	   
+	    {% endfor %}
+	    <div align="center">
+	      <a class="waves-effect waves-light btn lime lighten-5 black-text">Invoke</a>
+	    </div>
+	  </form>	  
+      	</div>
+      </div>
+      <div class="divider"></div>
+      
+
+      
       <h3>Action instances</h3>
       
       <!-- Action -->

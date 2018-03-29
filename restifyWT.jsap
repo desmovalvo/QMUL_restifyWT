@@ -31,7 +31,7 @@
     },
     "queries": {
 	"ACTIONS":{
-	    "sparql":" SELECT ?thing ?thingName ?action ?actionName ?inField ?inFieldType WHERE { ?action rdf:type td:Action . ?action td:hasName ?actionName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasAction ?action . OPTIONAL { ?action wot:hasInputDataSchema ?dataSchema . ?dataSchema wot:hasField ?inField . ?inField wot:hasType ?inFieldType } }",
+	    "sparql":" SELECT ?thing ?thingName ?action ?actionName ?inField ?inFieldName ?inFieldType WHERE { ?action rdf:type td:Action . ?action td:hasName ?actionName .  ?thing rdf:type td:Thing . ?thing td:hasName ?thingName . ?thing td:hasAction ?action . ?action wot:hasInputDataSchema ?dataSchema . OPTIONAL { ?dataSchema wot:hasField ?inField . ?inField wot:hasType ?inFieldType . ?inField wot:hasName ?inFieldName }}",
 	    "forcedBindings":{}
 	},
 	"ACTION_INSTANCES":{	    
